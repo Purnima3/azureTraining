@@ -1,0 +1,47 @@
+{
+	"name": "DS_240825_orderdetails",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_blobToDataset2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "input-data"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "240825_orderdetails.xlsx",
+				"folderPath": "input-data",
+				"container": "input-data"
+			}
+		},
+		"schema": [
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "LS_blobToDatabase",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "serverpurnima.database.windows.net",
+			"database": "database1",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "admin1",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDk4NjIxN0Y3LUI0ODktNDQwRi05QkJGLTMyOEEyQTU4MzAyMF8zNWFjMmNhOC1mYmY2LTRiMjQtYTk2Yy00NGY5MjczMTM3Y2MiDQp9"
+		}
+	}
+}

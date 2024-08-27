@@ -1,0 +1,17 @@
+{
+	"name": "DS_ordersTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "order"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
