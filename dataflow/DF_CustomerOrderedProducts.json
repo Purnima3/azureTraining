@@ -25,7 +25,7 @@
 						"referenceName": "LS_AzureSqlDatabase3",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink1"
+					"name": "tableToPrepSchema"
 				}
 			],
 			"transformations": [
@@ -36,7 +36,7 @@
 					"name": "orderDistinctRows"
 				},
 				{
-					"name": "join1"
+					"name": "joinedTable"
 				}
 			],
 			"scriptLines": [
@@ -77,8 +77,8 @@
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1 sink(allowSchemaDrift: true,",
+				"     broadcast: 'auto')~> joinedTable",
+				"joinedTable sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
@@ -90,7 +90,7 @@
 				"     upsertable: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError') ~> tableToPrepSchema"
 			]
 		}
 	}
