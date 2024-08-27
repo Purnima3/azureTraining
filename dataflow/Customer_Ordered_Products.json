@@ -21,9 +21,9 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "DS_customerOrderProducts",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "AzureSqlDatabase1",
+						"type": "LinkedServiceReference"
 					},
 					"name": "sink1"
 				}
@@ -71,13 +71,17 @@
 				"     broadcast: 'auto')~> customersorderedProducts",
 				"customersorderedProducts sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
 				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'raw',",
+				"     tableName: '',",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     deletable: false,",
+				"     upsertable: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
