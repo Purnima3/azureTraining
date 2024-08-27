@@ -83,7 +83,7 @@
 				"     format: 'table',",
 				"     store: 'sqlserver',",
 				"     schemaName: 'prep',",
-				"     tableName: 'customer_Products',",
+				"     tableName: 'customer_Product_Details',",
 				"     insertable: true,",
 				"     updateable: false,",
 				"     deletable: false,",
