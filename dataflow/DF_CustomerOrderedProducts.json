@@ -1,5 +1,5 @@
 {
-	"name": "Customer_Ordered_Products",
+	"name": "DF_CustomerOrderedProducts",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -9,7 +9,7 @@
 						"referenceName": "DS_azureTableCustomers",
 						"type": "DatasetReference"
 					},
-					"name": "Customers"
+					"name": "customers"
 				},
 				{
 					"dataset": {
@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"linkedService": {
-						"referenceName": "AzureSqlDatabase1",
+						"referenceName": "LS_AzureSqlDatabase3",
 						"type": "LinkedServiceReference"
 					},
 					"name": "sink1"
@@ -30,7 +30,13 @@
 			],
 			"transformations": [
 				{
-					"name": "customersorderedProducts"
+					"name": "customerDistinctRows"
+				},
+				{
+					"name": "orderDistinctRows"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -49,7 +55,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> Customers",
+				"     format: 'table') ~> customers",
 				"source(output(",
 				"          OrderID as string,",
 				"          ProductID as string,",
@@ -63,25 +69,27 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> orders",
-				"Customers, orders join(Customers@CustomerID == orders@CustomerID,",
+				"customers aggregate(groupBy(mycols = sha2(256,columns())),",
+				"     each(match(true()), $$ = first($$))) ~> customerDistinctRows",
+				"orders aggregate(groupBy(mycols = sha2(256,columns())),",
+				"     each(match(true()), $$ = first($$))) ~> orderDistinctRows",
+				"customerDistinctRows, orderDistinctRows join(customerDistinctRows@CustomerID == orderDistinctRows@CustomerID,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     partitionBy('hash', 1),",
-				"     broadcast: 'auto')~> customersorderedProducts",
-				"customersorderedProducts sink(allowSchemaDrift: true,",
+				"     broadcast: 'auto')~> join1",
+				"join1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
-				"     schemaName: 'raw',",
-				"     tableName: '',",
+				"     schemaName: 'prep',",
+				"     tableName: 'customer_Products',",
 				"     insertable: true,",
 				"     updateable: false,",
 				"     deletable: false,",
 				"     upsertable: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
