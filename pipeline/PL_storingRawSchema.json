@@ -196,6 +196,8 @@
 			{
 				"name": "consolidated order to database",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "consolidated customers to database",
