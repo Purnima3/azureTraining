@@ -1,0 +1,53 @@
+{
+	"name": "DF_superStores",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_superStores",
+						"type": "DatasetReference"
+					},
+					"name": "SuperStores"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "DistinctRows"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Row ID} as string,",
+				"          {Order ID} as string,",
+				"          {Order Date} as string,",
+				"          {Ship Date} as string,",
+				"          {Ship Mode} as string,",
+				"          {Customer ID} as string,",
+				"          {Customer Name} as string,",
+				"          Segment as string,",
+				"          Country as string,",
+				"          City as string,",
+				"          State as string,",
+				"          {Postal Code} as string,",
+				"          Region as string,",
+				"          {Product ID} as string,",
+				"          Category as string,",
+				"          {Sub-Category} as string,",
+				"          {Product Name} as string,",
+				"          Sales as string,",
+				"          Quantity as string,",
+				"          Discount as string,",
+				"          Profit as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SuperStores",
+				"SuperStores aggregate(groupBy(mycols = sha2(256,columns())),",
+				"     each(match(true()), $$ = first($$))) ~> DistinctRows"
+			]
+		}
+	}
+}
