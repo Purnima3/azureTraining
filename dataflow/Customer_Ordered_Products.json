@@ -1,0 +1,85 @@
+{
+	"name": "Customer_Ordered_Products",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_azureTableCustomers",
+						"type": "DatasetReference"
+					},
+					"name": "Customers"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_azureTableOrders",
+						"type": "DatasetReference"
+					},
+					"name": "orders"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_customerOrderProducts",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "customersorderedProducts"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerID as string,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          Email as string,",
+				"          PhoneNumber as string,",
+				"          Address as string,",
+				"          City as string,",
+				"          State as string,",
+				"          ZipCode as string,",
+				"          Country as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Customers",
+				"source(output(",
+				"          OrderID as string,",
+				"          ProductID as string,",
+				"          ProductName as string,",
+				"          Quantity as string,",
+				"          OrderTimestamp as string,",
+				"          Price as string,",
+				"          CustomerID as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> orders",
+				"Customers, orders join(Customers@CustomerID == orders@CustomerID,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     partitionBy('hash', 1),",
+				"     broadcast: 'auto')~> customersorderedProducts",
+				"customersorderedProducts sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}
