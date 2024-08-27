@@ -12,10 +12,21 @@
 					"name": "SuperStores"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LS_AzureSqlDatabase3",
+						"type": "LinkedServiceReference"
+					},
+					"name": "locationFactTable"
+				}
+			],
 			"transformations": [
 				{
-					"name": "DistinctRows"
+					"name": "DistinctSuperStores"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -46,7 +57,46 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> SuperStores",
 				"SuperStores aggregate(groupBy(mycols = sha2(256,columns())),",
-				"     each(match(true()), $$ = first($$))) ~> DistinctRows"
+				"     each(match(true()), $$ = first($$))) ~> DistinctSuperStores",
+				"DistinctSuperStores select(mapColumn(",
+				"          mycols,",
+				"          {Row ID},",
+				"          {Order ID},",
+				"          {Order Date},",
+				"          {Ship Date},",
+				"          {Ship Mode},",
+				"          {Customer ID},",
+				"          {Customer Name},",
+				"          Segment,",
+				"          Country,",
+				"          City,",
+				"          State,",
+				"          {Postal Code},",
+				"          Region,",
+				"          {Product ID},",
+				"          Category,",
+				"          {Sub-Category},",
+				"          {Product Name},",
+				"          Sales,",
+				"          Quantity,",
+				"          Discount,",
+				"          Profit",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'prep',",
+				"     tableName: 'locationFactTable',",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     deletable: false,",
+				"     upsertable: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> locationFactTable"
 			]
 		}
 	}
