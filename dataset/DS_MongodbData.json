@@ -1,0 +1,23 @@
+{
+	"name": "DS_MongodbData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_connectTomongoDb",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"collections": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "MongoDbAtlasCollection",
+		"schema": [],
+		"typeProperties": {
+			"collection": {
+				"value": "@dataset().collections",
+				"type": "Expression"
+			}
+		}
+	}
+}
