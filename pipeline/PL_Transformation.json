@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "decide karenge abi",
+				"name": "Making a new BookReviewRating table",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -15,6 +15,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_bookReviewRatingTable",
+						"type": "DataFlowReference"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
