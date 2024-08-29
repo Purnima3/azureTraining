@@ -17,7 +17,17 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "DF_bookReviewRatingTable",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"books": {
+								"bookReviewSchema": "raw",
+								"tableBookReview": "books"
+							},
+							"reviews": {
+								"bookReviewSchema": "raw",
+								"tableBookReview": "review"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
