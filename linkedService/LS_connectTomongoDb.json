@@ -6,9 +6,9 @@
 		"type": "MongoDbAtlas",
 		"typeProperties": {
 			"connectionString": "mongodb+srv://purnimakabadwal3:@cluster1.evkph7i.mongodb.net",
-			"database": "test",
+			"database": "MiniProjectData",
 			"driverVersion": "v2",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDk4NjIxN0Y3LUI0ODktNDQwRi05QkJGLTMyOEEyQTU4MzAyMF9hYTIxYzA5NC1hMmJjLTQ3M2YtOWMxZS0yMDJkYTJmZDU1YzkiDQp9"
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDk4NjIxN0Y3LUI0ODktNDQwRi05QkJGLTMyOEEyQTU4MzAyMF9jMGYxMzhmZC0zOTFhLTQ1OGQtOTM5Ny0yZDc0MWY1YzdmYzgiDQp9"
 		}
 	}
 }
