@@ -1,5 +1,5 @@
 {
-	"name": "DS_MongodbData",
+	"name": "DS_mongodbData",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_connectTomongoDb",
@@ -11,7 +11,7 @@
 			}
 		},
 		"folder": {
-			"name": "DS_MiniProject"
+			"name": "DS_miniProject"
 		},
 		"annotations": [],
 		"type": "MongoDbAtlasCollection",

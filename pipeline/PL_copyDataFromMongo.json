@@ -30,7 +30,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_MongodbData",
+						"referenceName": "DS_mongodbData",
 						"type": "DatasetReference",
 						"parameters": {
 							"collections": "Products"
@@ -39,7 +39,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_SQL",
+						"referenceName": "DS_sql",
 						"type": "DatasetReference",
 						"parameters": {
 							"schema": "raw",
@@ -83,7 +83,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_MongodbData",
+						"referenceName": "DS_mongodbData",
 						"type": "DatasetReference",
 						"parameters": {
 							"collections": "categories"
@@ -92,7 +92,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_SQL",
+						"referenceName": "DS_sql",
 						"type": "DatasetReference",
 						"parameters": {
 							"schema": "raw",
@@ -136,7 +136,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_MongodbData",
+						"referenceName": "DS_mongodbData",
 						"type": "DatasetReference",
 						"parameters": {
 							"collections": "subcategories"
@@ -145,7 +145,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_SQL",
+						"referenceName": "DS_sql",
 						"type": "DatasetReference",
 						"parameters": {
 							"schema": "raw",
@@ -156,7 +156,7 @@
 			}
 		],
 		"folder": {
-			"name": "MiniProject"
+			"name": "miniProject"
 		},
 		"annotations": []
 	}

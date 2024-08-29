@@ -1,5 +1,5 @@
 {
-	"name": "DS_SQL",
+	"name": "DS_sql",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_AzureSqlDatabase3",
@@ -14,7 +14,7 @@
 			}
 		},
 		"folder": {
-			"name": "DS_MiniProject"
+			"name": "DS_miniProject"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
