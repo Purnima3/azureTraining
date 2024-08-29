@@ -1,0 +1,23 @@
+{
+	"name": "DS_bookReviewCollection",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_MongoBookReview",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"bookReviewTable": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "MongoDbAtlasCollection",
+		"schema": [],
+		"typeProperties": {
+			"collection": {
+				"value": "@dataset().bookReviewTable",
+				"type": "Expression"
+			}
+		}
+	}
+}

@@ -1,0 +1,30 @@
+{
+	"name": "DS_azureBookReview",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_adfToBookReviewDb",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"bookReviewSchema": {
+				"type": "String"
+			},
+			"tableBookReview": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().bookReviewSchema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tableBookReview",
+				"type": "Expression"
+			}
+		}
+	}
+}
