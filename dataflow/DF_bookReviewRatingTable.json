@@ -1,0 +1,101 @@
+{
+	"name": "DF_bookReviewRatingTable",
+	"properties": {
+		"folder": {
+			"name": "bookReviewSiteFlow"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_azureBookReview",
+						"type": "DatasetReference"
+					},
+					"name": "books"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_azureBookReview",
+						"type": "DatasetReference"
+					},
+					"name": "reviews"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LS_adfToBookReviewDb",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sinkBookReviewRating"
+				}
+			],
+			"transformations": [
+				{
+					"name": "reviewsGivenToBook"
+				},
+				{
+					"name": "bookandReviews",
+					"description": "From joined table i dont want everything."
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {_id} as string,",
+				"          title as string,",
+				"          author as string,",
+				"          genre as string,",
+				"          description as string,",
+				"          averageRating as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> books",
+				"source(output(",
+				"          {_id} as string,",
+				"          user_id as string,",
+				"          book_id as string,",
+				"          rating as string,",
+				"          comment as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> reviews",
+				"books, reviews join(books@{_id} == book_id,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> reviewsGivenToBook",
+				"reviewsGivenToBook select(mapColumn(",
+				"          title,",
+				"          author,",
+				"          genre,",
+				"          description,",
+				"          reviews_id = reviews@{_id},",
+				"          user_id,",
+				"          book_id,",
+				"          rating,",
+				"          comment",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> bookandReviews",
+				"bookandReviews sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'raw',",
+				"     tableName: 'bookReviewRating',",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     deletable: false,",
+				"     upsertable: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkBookReviewRating"
+			]
+		}
+	}
+}
