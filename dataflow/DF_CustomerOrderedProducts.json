@@ -5,17 +5,9 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "DS_azureTableCustomers",
-						"type": "DatasetReference"
-					},
 					"name": "customers"
 				},
 				{
-					"dataset": {
-						"referenceName": "DS_azureTableOrders",
-						"type": "DatasetReference"
-					},
 					"name": "orders"
 				}
 			],
@@ -53,9 +45,7 @@
 				"          Country as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> customers",
+				"     validateSchema: false) ~> customers",
 				"source(output(",
 				"          OrderID as string,",
 				"          ProductID as string,",
@@ -66,9 +56,7 @@
 				"          CustomerID as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> orders",
+				"     validateSchema: false) ~> orders",
 				"customers aggregate(groupBy(mycols = sha2(256,columns())),",
 				"     each(match(true()), $$ = first($$))) ~> customerDistinctRows",
 				"orders aggregate(groupBy(mycols = sha2(256,columns())),",
