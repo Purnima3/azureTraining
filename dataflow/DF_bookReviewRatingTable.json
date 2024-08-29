@@ -86,7 +86,7 @@
 				"     validateSchema: false,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
-				"     schemaName: 'raw',",
+				"     schemaName: 'prep',",
 				"     tableName: 'bookReviewRating',",
 				"     insertable: true,",
 				"     updateable: false,",
