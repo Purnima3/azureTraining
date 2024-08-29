@@ -1,0 +1,17 @@
+{
+	"name": "DF_letsSee",
+	"properties": {
+		"folder": {
+			"name": "miniProjectFlow"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				""
+			]
+		}
+	}
+}
