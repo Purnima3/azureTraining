@@ -34,6 +34,10 @@
 							"sinkBrandTable": {
 								"schema": "prep",
 								"table": "BrandTable"
+							},
+							"ProductsTable": {
+								"schema": "prep",
+								"table": "Products"
 							}
 						}
 					},
