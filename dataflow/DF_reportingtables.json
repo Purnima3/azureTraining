@@ -81,6 +81,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     parameter1 as string",
+				"}",
 				"source(output(",
 				"          {Department Code} as string,",
 				"          {Category Code} as string,",
