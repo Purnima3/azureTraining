@@ -6,11 +6,140 @@
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
-			"transformations": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_sql",
+						"type": "DatasetReference"
+					},
+					"name": "products"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_sql",
+						"type": "DatasetReference"
+					},
+					"name": "categories"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_sql",
+						"type": "DatasetReference"
+					},
+					"name": "subcategories"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_sql",
+						"type": "DatasetReference"
+					},
+					"name": "sinkBrandTable"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "RemovingRedundantColumns"
+				},
+				{
+					"name": "window1"
+				},
+				{
+					"name": "filterToBrandCount"
+				},
+				{
+					"name": "BrandTable"
+				}
+			],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          {Department Code} as string,",
+				"          {Category Code} as string,",
+				"          {Category Name} as string,",
+				"          {Search Category Code} as string,",
+				"          {Series Code} as string,",
+				"          {Series Name} as string,",
+				"          {Brand Code} as string,",
+				"          {Brand URL Code} as string,",
+				"          {Brand Name} as string,",
+				"          {Series Status} as string,",
+				"          {Product Image List} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> products",
+				"source(output(",
+				"          {Category name} as string,",
+				"          Name as string,",
+				"          Href as string,",
+				"          {Image URL} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> categories",
+				"source(output(",
+				"          {Subcategory ID} as string,",
+				"          {Category name} as string,",
+				"          Name as string,",
+				"          Href as string,",
+				"          {Image URL} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> subcategories",
+				"categories, products join(categories@{Category name} == {Department Code},",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          {Category Name} = Name,",
+				"          Href,",
+				"          {Image URL},",
+				"          {Department Code},",
+				"          {Category Code},",
+				"          {Category Name} = products@{Category Name},",
+				"          {Series Code},",
+				"          {Series Name},",
+				"          {Brand Code},",
+				"          {Brand URL Code},",
+				"          {Brand Name},",
+				"          {Product Image List}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RemovingRedundantColumns",
+				"RemovingRedundantColumns window(over({Brand Code}),",
+				"     ProductsCount = count({Series Code})) ~> window1",
+				"BrandTable filter(ProductsCountByBrand!=0) ~> filterToBrandCount",
+				"window1 select(mapColumn(",
+				"          {Department Code},",
+				"          {Category Code},",
+				"          {Series Code},",
+				"          {Series Name},",
+				"          {Brand Code},",
+				"          {Brand URL Code},",
+				"          {Brand Name},",
+				"          ProductsCountByBrand = ProductsCount",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> BrandTable",
+				"filterToBrandCount sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkBrandTable"
 			]
 		}
 	}

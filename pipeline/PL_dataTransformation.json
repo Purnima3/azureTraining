@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ye bhi dekhte hn",
+				"name": "Transformation Products",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -17,7 +17,25 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "DF_letsSee",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"products": {
+								"schema": "raw",
+								"table": "Products"
+							},
+							"categories": {
+								"schema": "raw",
+								"table": "categories"
+							},
+							"subcategories": {
+								"schema": "raw",
+								"table": "subcategories"
+							},
+							"sinkBrandTable": {
+								"schema": "prep",
+								"table": "BrandTable"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
