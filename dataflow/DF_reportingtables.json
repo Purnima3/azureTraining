@@ -66,6 +66,18 @@
 				},
 				{
 					"name": "Product"
+				},
+				{
+					"name": "AlterRow1"
+				},
+				{
+					"name": "AlterRow2"
+				},
+				{
+					"name": "window2"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -160,22 +172,42 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Product",
-				"filterToBrandCount sink(allowSchemaDrift: true,",
+				"Product alterRow(upsertIf(!isNull({Series Code}))) ~> AlterRow1",
+				"window2 alterRow(insertIf(isNull(unique_id)),",
+				"     upsertIf(!isNull(unique_id))) ~> AlterRow2",
+				"filterToBrandCount window(asc({Series Code}, true),",
+				"     unique_id = rowNumber()) ~> window2",
+				"AlterRow2 select(mapColumn(",
+				"          unique_id,",
+				"          {Brand Code},",
+				"          {Brand Name},",
+				"          {Series Name},",
+				"          {Series Code},",
+				"          {Brand URL Code},",
+				"          {Department Code},",
+				"          {Category Code},",
+				"          ProductsCountByBrand",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
-				"     insertable:false,",
+				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:true,",
+				"     keys:['unique_id'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sinkBrandTable",
-				"Product sink(allowSchemaDrift: true,",
+				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
-				"     insertable:false,",
+				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:true,",
+				"     keys:['Series Code'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
