@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "DF_letsSee",
+						"referenceName": "DF_reportingtables",
 						"type": "DataFlowReference",
 						"datasetParameters": {
 							"products": {
