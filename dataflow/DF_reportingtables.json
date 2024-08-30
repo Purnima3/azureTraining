@@ -66,13 +66,6 @@
 				},
 				{
 					"name": "Product"
-				},
-				{
-					"name": "productTable",
-					"description": "Image URL, Brand URL Code'"
-				},
-				{
-					"name": "window2"
 				}
 			],
 			"scriptLines": [
@@ -167,25 +160,22 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Product",
-				"Product derive() ~> productTable",
-				"productTable window(over({Category Code}),",
-				"     CountProductsByCategoty = count({Series Code})) ~> window2",
 				"filterToBrandCount sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
-				"     insertable:true,",
+				"     insertable:false,",
 				"     updateable:false,",
-				"     upsertable:false,",
+				"     upsertable:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sinkBrandTable",
-				"window2 sink(allowSchemaDrift: true,",
+				"Product sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
-				"     insertable:true,",
+				"     insertable:false,",
 				"     updateable:false,",
-				"     upsertable:false,",
+				"     upsertable:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
