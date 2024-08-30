@@ -36,6 +36,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sinkBrandTable"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_sql",
+						"type": "DatasetReference"
+					},
+					"name": "ProductsTable"
 				}
 			],
 			"transformations": [
@@ -53,6 +60,12 @@
 				},
 				{
 					"name": "BrandTable"
+				},
+				{
+					"name": "ProductsAndSubcategories"
+				},
+				{
+					"name": "Product"
 				}
 			],
 			"scriptLines": [
@@ -130,6 +143,23 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> BrandTable",
+				"subcategories, products join({Subcategory ID} == {Category Code},",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> ProductsAndSubcategories",
+				"ProductsAndSubcategories select(mapColumn(",
+				"          {Series Code},",
+				"          {Series Name},",
+				"          {Brand Code},",
+				"          {Category Code},",
+				"          {Category name} = subcategories@{Category name},",
+				"          Href,",
+				"          {Image URL},",
+				"          {Brand URL Code}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Product",
 				"filterToBrandCount sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
@@ -139,7 +169,17 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sinkBrandTable"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkBrandTable",
+				"Product sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ProductsTable"
 			]
 		}
 	}
